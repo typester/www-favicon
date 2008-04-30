@@ -65,20 +65,33 @@ WWW::Favicon - perl module to detect favicon url
 
 =head1 SYNOPSIS
 
-  use WWW::Favicon;
-  blah blah blah
+    use WWW::Favicon qw/detect_favicon_url/;
+    my $favicon_url = detect_favicon_url('http://example.com/');
+    
+    # or OO way
+    use WWW::Favicon;
+    my $favicon = WWW::Favicon->new;
+    my $favicon_url = $favicon->detect('http://example.com/');
 
 =head1 DESCRIPTION
 
-Stub documentation for this module was created by ExtUtils::ModuleMaker.
-It looks like the author of the extension was negligent enough
-to leave the stub unedited.
-
-Blah blah blah.
+This module provide simple interface to detect favicon url of specified url.
 
 =head1 METHODS
 
-=cut
+=head2 new
+
+Create new WWW::Favicon object.
+
+=head2 detect($url)
+
+Detect favicon url of $url.
+
+=head1 EXPORT FUNCTIONS
+
+=head2 detect_favicon_url($url)
+
+Same as $self->detect described above.
 
 =head1 AUTHOR
 
