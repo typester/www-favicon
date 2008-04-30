@@ -3,7 +3,6 @@ name 'WWW-Favicon';
 all_from 'lib/WWW/Favicon.pm';
 
 build_requires 'Test::More';
-build_requires 'Test::Base';
 build_requires 'Test::MockObject::Extends';
 
 requires 'Class::Accessor::Fast';
