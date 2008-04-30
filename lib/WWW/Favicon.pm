@@ -1,12 +1,67 @@
 package WWW::Favicon;
 use strict;
 use warnings;
+use base qw/Class::Accessor::Fast Exporter/;
+
+use Carp;
+use LWP::UserAgent;
+use HTML::TreeBuilder;
+use HTML::ResolveLink;
 
 our $VERSION = '0.01';
+our @EXPORT_OK = qw/detect_favicon_url/;
+
+__PACKAGE__->mk_accessors(qw/ua/);
+
+sub new {
+    my $self = shift->SUPER::new(@_);
+
+    $self->{ua} = do {
+        my $ua = LWP::UserAgent->new;
+        $ua->timeout(10);
+        $ua->env_proxy;
+        $ua;
+    };
+
+    $self;
+}
+
+sub detect_favicon_url($) {
+    __PACKAGE__->detect(shift);
+}
+
+sub detect {
+    my ($self, $url) = @_;
+    $self = $self->new unless ref $self;
+
+    my $res = $self->ua->get($url);
+    croak 'request failed: ' . $res->status_line unless $res->is_success;
+
+    my $resolver = HTML::ResolveLink->new( base => $res->base );
+    my $html = $resolver->resolve( $res->content );
+
+    my $tree = HTML::TreeBuilder->new;
+    $tree->parse($html);
+    $tree->eof;
+
+    my ($icon_url) = grep {$_} map { $_->attr('href') } $tree->look_down(
+        _tag => 'link',
+        rel  => qr/^(shortcut )?icon$/i,
+    );
+
+    unless ($icon_url) {
+        $icon_url = $res->base->clone;
+        $icon_url->path('/favicon.ico');
+    }
+
+    $tree->delete;
+
+    "$icon_url";
+}
 
 =head1 NAME
 
-WWW::Favicon - Module abstract (<= 44 characters) goes here
+WWW::Favicon - perl module to detect favicon url
 
 =head1 SYNOPSIS
 
@@ -20,6 +75,10 @@ It looks like the author of the extension was negligent enough
 to leave the stub unedited.
 
 Blah blah blah.
+
+=head1 METHODS
+
+=cut
 
 =head1 AUTHOR
 
