@@ -14,6 +14,7 @@ inc/Test/Base.pm
 inc/Test/Base/Filter.pm
 inc/Test/Builder.pm
 inc/Test/Builder/Module.pm
+inc/Test/MockObject/Extends.pm
 inc/Test/More.pm
 lib/WWW/Favicon.pm
 LICENSE
@@ -22,5 +23,6 @@ MANIFEST			This list of files
 META.yml
 README
 t/00_compile.t
+t/01_module.t
 t/pod.t
 t/pod_coverage.t
