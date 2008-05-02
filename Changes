@@ -1,5 +1,8 @@
 Revision history for Perl extension WWW::Favicon
 
+0.03  2008-05-02T14:31:50+09:00
+      - added a couple of example scripts
+
 0.02  2008-04-30T18:26:31+09:00
       - remove unnecessary line in Makefile.PL
       - added some live tests
