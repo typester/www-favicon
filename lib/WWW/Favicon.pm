@@ -8,7 +8,7 @@ use LWP::UserAgent;
 use HTML::TreeBuilder;
 use HTML::ResolveLink;
 
-our $VERSION = '0.03';
+our $VERSION = '0.03001';
 our @EXPORT_OK = qw/detect_favicon_url/;
 
 __PACKAGE__->mk_accessors(qw/ua/);
