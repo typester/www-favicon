@@ -19,6 +19,7 @@ sub new {
     $self->{ua} = do {
         my $ua = LWP::UserAgent->new;
         $ua->timeout(10);
+        $ua->max_size(1024*1024);
         $ua->env_proxy;
         $ua;
     };
