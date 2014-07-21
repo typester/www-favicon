@@ -21,5 +21,4 @@ __DATA__
 
 === id:jkondo
 --- input: http://d.hatena.ne.jp/jkondo/
---- expected: http://d.hatena.ne.jp/images/diary/j/jkondo/favicon.ico
-
+--- expected: http://hatenablog.com/images/favicon.ico

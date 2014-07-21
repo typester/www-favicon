@@ -1,7 +1,7 @@
 package WWW::Favicon;
 use strict;
 use warnings;
-use base qw/Class::Accessor::Fast Exporter/;
+use base qw/Exporter/;
 
 use Carp;
 use LWP::UserAgent;
@@ -11,19 +11,25 @@ use HTML::ResolveLink;
 our $VERSION = '0.03';
 our @EXPORT_OK = qw/detect_favicon_url/;
 
-__PACKAGE__->mk_accessors(qw/ua/);
-
 sub new {
-    my $self = shift->SUPER::new(@_);
-
-    $self->{ua} = do {
-        my $ua = LWP::UserAgent->new;
-        $ua->timeout(10);
-        $ua->env_proxy;
-        $ua;
-    };
+    my ($class, %options) = @_;
+    my $self = bless { ua => $options{ua} }, $class;
+    if(!defined($self->ua)) {
+        $self->ua(do {
+            my $ua = LWP::UserAgent->new;
+            $ua->timeout(10);
+            $ua->env_proxy;
+            $ua;
+        });
+    }
 
     $self;
+}
+
+sub ua {
+    my $self = shift;
+    $self->{ua} = $_[0] if exists $_[0];
+    return $self->{ua};
 }
 
 sub detect_favicon_url($) {
@@ -79,13 +85,28 @@ This module provide simple interface to detect favicon url of specified url.
 
 =head1 METHODS
 
-=head2 new
+=head2 new(%options)
 
-Create new WWW::Favicon object.
+Create new WWW::Favicon object. Available %options are:
+
+=over
+
+=item ua => 'L<LWP::UserAgent>' (optional)
+
+L<LWP::UserAgent> object for fetching remote documents.
+
+=back
 
 =head2 detect($url)
 
 Detect favicon url of $url.
+
+=head2 ua([$ua])
+
+Accessor method for the L<LWP::UserAgent> object for fetching remote documents.
+
+    my $ua = $favicon->ua;  ## get
+    $favicon->ua($ua);      ## set
 
 =head1 EXPORT FUNCTIONS
 
