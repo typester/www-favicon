@@ -14,14 +14,15 @@ our @EXPORT_OK = qw/detect_favicon_url/;
 __PACKAGE__->mk_accessors(qw/ua/);
 
 sub new {
-    my $self = shift->SUPER::new(@_);
-
-    $self->{ua} = do {
-        my $ua = LWP::UserAgent->new;
-        $ua->timeout(10);
-        $ua->env_proxy;
-        $ua;
-    };
+    my $self = shift->SUPER::new({@_});
+    if(!defined($self->ua)) {
+        $self->ua(do {
+            my $ua = LWP::UserAgent->new;
+            $ua->timeout(10);
+            $ua->env_proxy;
+            $ua;
+        });
+    }
 
     $self;
 }

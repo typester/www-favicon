@@ -18,7 +18,7 @@ my $f = WWW::Favicon->new(ua => $mock);
 @get_log = ();
 eval { $f->detect('http://example.com/') };
 cmp_ok scalar(@get_log), '>', 0, 'at least 1 get() request';
-is $get_log[0][0], 'http://example.com', 'get() request captured OK';
+is $get_log[0][1], 'http://example.com/', 'get() request captured OK';
 
 is $f->ua, $mock, 'ua() method should return the useragent';
 
