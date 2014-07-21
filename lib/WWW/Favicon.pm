@@ -79,13 +79,28 @@ This module provide simple interface to detect favicon url of specified url.
 
 =head1 METHODS
 
-=head2 new
+=head2 new(%options)
 
-Create new WWW::Favicon object.
+Create new WWW::Favicon object. Available %options are:
+
+=over
+
+=item ua => 'L<LWP::UserAgent>' (optional)
+
+L<LWP::UserAgent> object for fetching remote documents.
+
+=back
 
 =head2 detect($url)
 
 Detect favicon url of $url.
+
+=head2 ua([$ua])
+
+Accessor method for the L<LWP::UserAgent> object for fetching remote documents.
+
+    my $ua = $favicon->ua;  ## get
+    $favicon->ua($ua);      ## set
 
 =head1 EXPORT FUNCTIONS
 
