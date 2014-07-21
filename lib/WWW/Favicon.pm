@@ -1,7 +1,7 @@
 package WWW::Favicon;
 use strict;
 use warnings;
-use base qw/Class::Accessor::Fast Exporter/;
+use base qw/Exporter/;
 
 use Carp;
 use LWP::UserAgent;
@@ -11,10 +11,9 @@ use HTML::ResolveLink;
 our $VERSION = '0.03';
 our @EXPORT_OK = qw/detect_favicon_url/;
 
-__PACKAGE__->mk_accessors(qw/ua/);
-
 sub new {
-    my $self = shift->SUPER::new({@_});
+    my ($class, %options) = @_;
+    my $self = bless { ua => $options{ua} }, $class;
     if(!defined($self->ua)) {
         $self->ua(do {
             my $ua = LWP::UserAgent->new;
@@ -25,6 +24,12 @@ sub new {
     }
 
     $self;
+}
+
+sub ua {
+    my $self = shift;
+    $self->{ua} = $_[0] if exists $_[0];
+    return $self->{ua};
 }
 
 sub detect_favicon_url($) {
